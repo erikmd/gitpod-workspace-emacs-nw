@@ -1,4 +1,4 @@
-# Configuration
+# Optional
 
 As documented [here](https://www.gitpod.io/docs/configure/repositories/environment-variables#using-the-dockerd_args-environment-variable):
 
