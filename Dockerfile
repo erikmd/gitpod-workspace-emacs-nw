@@ -10,9 +10,10 @@ FROM ${BASE_TAG} as base
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# Create the gitpod user. UID must be 33333.
-RUN sudo useradd -l -u 33333 -G sudo -md /home/gitpod -s /bin/bash -p gitpod gitpod \
+# Create the gitpod user. UID must be 33333. Note the -G option.
+RUN sudo useradd -l -u 33333 -G sudo,coq -md /home/gitpod -s /bin/bash -p gitpod gitpod \
   && echo '%gitpod ALL=(ALL) NOPASSWD: ALL' | sudo tee /etc/sudoers.d/gitpod
+# Equivalent: sudo usermod -aG coq gitpod
 
 WORKDIR /home/gitpod
 
@@ -57,5 +58,6 @@ USER gitpod
 # # COPY --from=base --chown=gitpod:gitpod /home/coq/.profile /home/coq/.profile
 #
 # Remark: at first sight, a chown is needed given the various UIDs(1000,33333).
-# On second thought, it is more efficient to rely on DOCKERD_ARGS("remap-user"):
+# Besides, we cannot use DOCKERD_ARGS("remap-user") for the ambient container:
 # https://www.gitpod.io/docs/configure/repositories/environment-variables#using-the-dockerd_args-environment-variable
+# Actually, adding the gitpod user to the coq group should be the optimal fix.
