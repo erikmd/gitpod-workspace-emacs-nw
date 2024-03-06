@@ -32,14 +32,14 @@ tasks:
       tapfa_init_done tmux
       ## Download curated configuration
       time curl -o ~/.emacs -fL https://github.com/erikmd/tapfa-init.el/raw/master/.emacs
-      ## Caching
-      if [ -d .emacs.d ]; then
-        echo "* $(date -R): Existing cache in .emacs.d" >> ~/.tapfa-init.log
-        rsync -av --delete-delay .emacs.d/ ~/.emacs.d/
-        rsync -av .emacs ~/.emacs
-      else
-        echo "* $(date -R): No cache for .emacs.d" >> ~/.tapfa-init.log
-      fi
+      ## ## Caching
+      ## if [ -d .emacs.d ]; then
+      ##   echo "* $(date -R): Existing cache in .emacs.d" >> ~/.tapfa-init.log
+      ##   rsync -av --delete-delay .emacs.d/ ~/.emacs.d/
+      ##   rsync -av .emacs ~/.emacs
+      ## else
+      ##   echo "* $(date -R): No cache for .emacs.d" >> ~/.tapfa-init.log
+      ## fi
       ## Batch setup
       # tapfa-init-darkness = -1 : use spacemacs-dark theme
       # tapfa-init-cua = 1 : preferred for students
@@ -47,9 +47,10 @@ tasks:
       # tapfa-init-coq = 1 : install proof-general+company-coq
       time \emacs --batch --eval "(progn (setq user-init-file \"~/.emacs\") (customize-save-variable 'tapfa-init-darkness -1) (customize-save-variable 'tapfa-init-cua -1) (customize-save-variable 'tapfa-init-coq 1))" --load ~/.emacs
       sed -i -e 's/(hello)/(hello code-folding)/' ~/.emacs
-      echo "* $(date -R): Caching .emacs.d" >> ~/.tapfa-init.log
-      rsync -av --delete-delay ~/.emacs.d/ .emacs.d/
-      rsync -av ~/.emacs .emacs
+      ## More Caching
+      ## echo "* $(date -R): Caching .emacs.d" >> ~/.tapfa-init.log
+      ## rsync -av --delete-delay ~/.emacs.d/ .emacs.d/
+      ## rsync -av ~/.emacs .emacs
       # gp sync-await chown &&
       tapfa_init_done emacs
 
