@@ -1,0 +1,32 @@
+name: docker-push
+on:
+  push:
+    branches:
+      - docker
+
+env:
+  BASE_TAG: "mathcomp/mathcomp:latest-coq-8.19"
+  TEMP_NAME: "image"
+  IMAGE_VERSION: "mathcomp-latest--coq-8.19"
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        run: docker build --build-arg="BASE_TAG=$BASE_TAG" --build-arg="install_deps_opam=true" -t "$TEMP_NAME" .
+      - name: Login registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+      - name: Push image
+        run: |
+          # IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME
+          IMAGE_ID="ghcr.io/${{ github.repository }}:$IMAGE_VERSION"
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+          # VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          echo IMAGE_ID=$IMAGE_ID
+          docker tag $TEMP_NAME $IMAGE_ID
+          docker push $IMAGE_ID
