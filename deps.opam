@@ -1,0 +1,28 @@
+opam-version: "2.0"
+synopsis: "Some project example with dependencies"
+description: """
+Currently, this package is especially useful to specify OPAM dependencies.
+"""
+build: [
+  ["sh" "-c" "echo build"]
+  ["sh" "-c" "echo test"] {with-test}
+]
+install: ["sh" "-c" "echo install"]
+tags: [
+]
+
+# Optional: Update these fields!
+maintainer: "erik@martin-dorel.org"
+authors: [
+  "Erik Martin-Dorel"
+]
+homepage: "https://github.com/erikmd/gitpod-workspace-emacs-nw"
+dev-repo: "git+https://github.com/erikmd/gitpod-workspace-emacs-nw.git"
+bug-reports: "https://github.com/erikmd/gitpod-workspace-emacs-nw/issues"
+license: "MIT"
+version: "dev"
+
+# Mandatory: Update this field!
+depends: [
+  "merlin"
+]
