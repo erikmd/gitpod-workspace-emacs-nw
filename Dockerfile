@@ -21,11 +21,13 @@ COPY --chown=gitpod:gitpod deps.opam ./
 ARG install_deps_opam="false"
 
 RUN if [ "${install_deps_opam}" = "true" ]; then \
-  nproc \
+  set -x \
+  && nproc \
   && opam update -y \
   && opam pin add -n -y -k path deps . \
-  && opam install --confirm-level=unsafe-yes -j "$(nproc)" --deps-only deps --solver=aspcud --criteria="-sum(solution,avoid-version),-count(removed),-count(down),-count(changed)" \
-  && opam clean -a -c -s --logs; fi
+  && opam install --confirm-level=unsafe-yes -v -j "$(nproc)" --deps-only deps \
+  && opam clean -a -c -s --logs \
+  && opam config list && opam list; fi
 
 # Set the opam root path. Docker-Coq specific env var.
 ENV OPAMROOT="/home/coq/.opam"
