@@ -1,0 +1,63 @@
+# Author: Erik Martin-Dorel, 2023-2024
+
+# Update this field!
+image: ghcr.io/erikmd/gitpod-workspace-emacs-nw:mathcomp-latest--coq-8.19
+
+tasks:
+
+  # - name: chown
+  #   before: |
+  #     docker_entrypoint.sh
+  #     gp sync-done chown
+
+  - name: tmux & emacs & co
+    before: |
+      version=$(git --version | cut -d ' ' -f 3)
+      curl -fL -o ~/.git-prompt.sh https://github.com/git/git/raw/v$version/contrib/completion/git-prompt.sh
+      chmod a-w ~/.git-prompt.sh
+      ## DONT overwrite ~/.bashrc
+      cp -fv default.bash_aliases ~/.bash_aliases
+      ## . ~/.bash_aliases ## DONT do this here
+      tapfa_init_done() {
+        touch ~/.tapfa-init."$1".done
+        gp sync-done "$1"
+      }
+      sudo apt-get update -y -q
+      sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -q --no-install-recommends \
+        emacs-nox htop markdown shellcheck tig tmux tree
+      # sudo apt-get clean; sudo rm -rf /var/lib/apt/lists/*
+      cat > ~/.tmux.conf <<EOF
+      set-option -g default-command bash # https://unix.stackexchange.com/a/691911/297058
+      EOF
+      tapfa_init_done tmux
+      ## Download curated configuration
+      time curl -o ~/.emacs -fL https://github.com/erikmd/tapfa-init.el/raw/master/.emacs
+      ## Caching
+      if [ -d .emacs.d ]; then
+        echo "* $(date -R): Existing cache in .emacs.d" >> ~/.tapfa-init.log
+        rsync -av --delete-delay .emacs.d/ ~/.emacs.d/
+        rsync -av .emacs ~/.emacs
+      else
+        echo "* $(date -R): No cache for .emacs.d" >> ~/.tapfa-init.log
+      fi
+      ## Batch setup
+      # tapfa-init-darkness = -1 : use spacemacs-dark theme
+      # tapfa-init-cua = 1 : preferred for students
+      # tapfa-init-cua = -1 : use linux emacs shortcuts
+      # tapfa-init-coq = 1 : install proof-general+company-coq
+      time \emacs --batch --eval "(progn (setq user-init-file \"~/.emacs\") (customize-save-variable 'tapfa-init-darkness -1) (customize-save-variable 'tapfa-init-cua -1) (customize-save-variable 'tapfa-init-coq 1))" --load ~/.emacs
+      sed -i -e 's/(hello)/(hello code-folding)/' ~/.emacs
+      echo "* $(date -R): Caching .emacs.d" >> ~/.tapfa-init.log
+      rsync -av --delete-delay ~/.emacs.d/ .emacs.d/
+      rsync -av ~/.emacs .emacs
+      # gp sync-await chown &&
+      tapfa_init_done emacs
+
+# Documentation:
+# https://www.gitpod.io/docs/configure/workspaces/tasks#execution-order
+# https://www.gitpod.io/docs/configure/workspaces/tasks#prebuild-and-new-workspaces
+# https://www.gitpod.io/docs/configure/workspaces/tasks#restart-a-workspace
+# https://www.gitpod.io/docs/configure/user-settings/dotfiles#example
+# &
+# https://www.gitpod.io/docs/configure/user-settings/dotfiles#how-to-install-symlinks-from-dotfiles-when-using-a-custom-installation-script
+# cat /home/gitpod/.dotfiles.log
