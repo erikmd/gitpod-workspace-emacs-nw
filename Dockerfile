@@ -8,7 +8,7 @@ FROM ${BASE_TAG} as base
 # - PKG: sudo, git
 # - USER: indifferent
 
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+SHELL ["/bin/bash", "--login", "-o", "pipefail", "-c"]
 
 # Create the gitpod user. UID must be 33333. Note the -G option.
 RUN sudo useradd -l -u 33333 -G sudo,coq -md /home/gitpod -s /bin/bash -p gitpod gitpod \
@@ -28,6 +28,7 @@ RUN if [ "${install_deps_opam}" = "true" ]; then \
   && opam pin add -n -y -k path deps . \
   && opam install --confirm-level=unsafe-yes -v -j "$(nproc)" --deps-only deps \
   && opam clean -a -c -s --logs \
+  && chmod -R g=u /home/coq/.opam \
   && opam config list && opam list; fi
 
 # Set the opam root path. Docker-Coq specific env var.
