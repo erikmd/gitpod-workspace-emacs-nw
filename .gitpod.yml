@@ -5,13 +5,10 @@ image: ghcr.io/erikmd/gitpod-workspace-emacs-nw:mathcomp-latest--coq-8.19
 
 tasks:
 
-  # - name: chown
-  #   before: |
-  #     docker_entrypoint.sh
-  #     gp sync-done chown
-
   - name: tmux & emacs & co
     before: |
+
+      ## Setup Git prompt
       version=$(git --version | cut -d ' ' -f 3)
       curl -fL -o ~/.git-prompt.sh https://github.com/git/git/raw/v$version/contrib/completion/git-prompt.sh
       chmod a-w ~/.git-prompt.sh
@@ -21,37 +18,32 @@ tasks:
       tapfa_init_done() {
         touch ~/.tapfa-init."$1".done
         gp sync-done "$1"
+        # gp sync-await "keyword"
       }
+
+      ## Setup utils, including tmux
       sudo apt-get update -y -q
       sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -q --no-install-recommends \
-        emacs-nox htop markdown shellcheck tig tmux tree
+      emacs-nox htop markdown shellcheck tig tmux tree
+
+      ## Setup uid:gid compatibility
+      sudo usermod -aG coq gitpod
       # sudo apt-get clean; sudo rm -rf /var/lib/apt/lists/*
       cat > ~/.tmux.conf <<EOF
-      set-option -g default-command bash # https://unix.stackexchange.com/a/691911/297058
+      # set-option -g default-command bash # https://unix.stackexchange.com/a/691911/297058
+      set-option -g default-command "newgrp coq"
       EOF
       tapfa_init_done tmux
-      ## Download curated configuration
+
+      ## Setup curated emacs config
       time curl -o ~/.emacs -fL https://github.com/erikmd/tapfa-init.el/raw/master/.emacs
-      ## ## Caching
-      ## if [ -d .emacs.d ]; then
-      ##   echo "* $(date -R): Existing cache in .emacs.d" >> ~/.tapfa-init.log
-      ##   rsync -av --delete-delay .emacs.d/ ~/.emacs.d/
-      ##   rsync -av .emacs ~/.emacs
-      ## else
-      ##   echo "* $(date -R): No cache for .emacs.d" >> ~/.tapfa-init.log
-      ## fi
       ## Batch setup
       # tapfa-init-darkness = -1 : use spacemacs-dark theme
-      # tapfa-init-cua = 1 : preferred for students
-      # tapfa-init-cua = -1 : use linux emacs shortcuts
+      # tapfa-init-cua = 1 : use windows emacs shortcuts (preferred for newcomers)
+      # tapfa-init-cua = -1 : use linux emacs shortcuts (preferred for power users)
       # tapfa-init-coq = 1 : install proof-general+company-coq
-      time \emacs --batch --eval "(progn (setq user-init-file \"~/.emacs\") (customize-save-variable 'tapfa-init-darkness -1) (customize-save-variable 'tapfa-init-cua -1) (customize-save-variable 'tapfa-init-coq 1))" --load ~/.emacs
+      time \emacs --batch --eval "(progn (setq user-init-file \"~/.emacs\") (customize-save-variable 'tapfa-init-darkness -1) (customize-save-variable 'tapfa-init-cua 1) (customize-save-variable 'tapfa-init-coq 1))" --load ~/.emacs
       sed -i -e 's/(hello)/(hello code-folding)/' ~/.emacs
-      ## More Caching
-      ## echo "* $(date -R): Caching .emacs.d" >> ~/.tapfa-init.log
-      ## rsync -av --delete-delay ~/.emacs.d/ .emacs.d/
-      ## rsync -av ~/.emacs .emacs
-      # gp sync-await chown &&
       tapfa_init_done emacs
 
 # Documentation:
