@@ -35,15 +35,19 @@ tasks:
       EOF
       tapfa_init_done tmux
 
-      ## Setup curated emacs config
-      time curl -o ~/.emacs -fL https://github.com/erikmd/tapfa-init.el/raw/master/.emacs
       ## Batch setup
+      # time curl -fsSL https://github.com/erikmd/tapfa-init.el/raw/master/.emacs > ~/.emacs
       # tapfa-init-darkness = -1 : use spacemacs-dark theme
       # tapfa-init-cua = 1 : use windows emacs shortcuts (preferred for newcomers)
       # tapfa-init-cua = -1 : use linux emacs shortcuts (preferred for power users)
       # tapfa-init-coq = 1 : install proof-general+company-coq
-      time \emacs --batch --eval "(progn (setq user-init-file \"~/.emacs\") (customize-save-variable 'tapfa-init-darkness -1) (customize-save-variable 'tapfa-init-cua 1) (customize-save-variable 'tapfa-init-coq 1))" --load ~/.emacs
-      sed -i -e 's/(hello)/(hello code-folding)/' ~/.emacs
+      # time \emacs --batch --eval "(progn (setq user-init-file \"~/.emacs\") (customize-save-variable 'tapfa-init-darkness -1) (customize-save-variable 'tapfa-init-cua 1) (customize-save-variable 'tapfa-init-coq 1))" --load ~/.emacs
+      # sed -i -e 's/(hello)/(hello code-folding)/' ~/.emacs
+
+      ## Setup curated emacs config
+      time curl -fsSL https://erikmd.github.io/gitpod-workspace-emacs-nw/batch-install/.emacs > ~/.emacs
+      time curl -fsSL https://erikmd.github.io/gitpod-workspace-emacs-nw/batch-install/.emacs.d.tar.gz > ~/.emacs.d.tar.gz
+      ( cd ; tar xzf .emacs.d.tar.gz )
       tapfa_init_done emacs
 
 # Documentation:
