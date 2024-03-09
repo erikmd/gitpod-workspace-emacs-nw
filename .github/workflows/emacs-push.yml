@@ -1,0 +1,98 @@
+name: docker-push
+on:
+  # Use a dedicated branch
+  push:
+    branches:
+      - emacs
+  # Rebuild the static website on-demand
+  workflow_dispatch:
+
+# Allow deployment to GitHub Pages using GITHUB_TOKEN
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment:
+# - skip runs queued between the run in-progress and the latest queued.
+# - but don't cancel in-progress runs as we want these deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+env:
+  # Base image of https://github.com/coq-community/docker-coq#readme
+  # (with non-root user "coq")
+  BASE_TAG: "coqorg/base:bare"
+  # Configuration from https://github.com/erikmd/tapfa-init.el
+  # - tapfa-init-coq = 1 : install proof-general+company-coq
+  # - tapfa-init-coq = -1 : don't install proof-general+company-coq
+  # - tapfa-init-darkness = 1 : use spacemacs-light theme
+  # - tapfa-init-darkness = -1 : use spacemacs-dark theme
+  # - tapfa-init-cua = 1 : use windows emacs shortcuts (preferred for newcomers)
+  # - tapfa-init-cua = -1 : use linux emacs shortcuts (preferred for power users)
+  TAPFA_INIT_COQ: "1"
+  TAPFA_INIT_DARKNESS: "-1"
+  TAPFA_INIT_CUA: "1"
+  # Local Emacs directory
+  EMACS_DIR: ".emacs.d"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./docs
+          destination: ./_site
+      - name: Run image
+        run: |
+          : Run image
+          umask 002
+          mkdir -v -m 775 "$EMACS_DIR"
+          sudo chown -v 1000:1000 "$EMACS_DIR"
+          # Note: /home/coq/.emacs.d is hard-coded
+          docker run --rm -v "$PWD:$PWD" -w "$PWD" -v "$PWD/$EMACS_DIR:/home/coq/.emacs.d" --entrypoint /bin/bash "$BASE_TAG" --login -c "
+            pwd=$PWD
+            sudo apt-get update -y -q
+            sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -q --no-install-recommends \
+              emacs-nox
+            : Get curated emacs config
+            time curl -fsSL https://github.com/erikmd/tapfa-init.el/raw/master/.emacs > ~/.emacs
+            : Batch-install emacs packages
+            time \emacs --batch --eval \"(progn (setq user-init-file \\\"~/.emacs\\\") (customize-save-variable 'tapfa-init-darkness $TAPFA_INIT_DARKNESS) (customize-save-variable 'tapfa-init-cua $TAPFA_INIT_CUA) (customize-save-variable 'tapfa-init-coq $TAPFA_INIT_COQ))\" --load ~/.emacs
+            sed -i -e 's/(hello)/(hello code-folding)/' ~/.emacs
+            sudo mv ~/.emacs \"\$pwd/.emacs\"
+          " bash
+          sudo chown -v "$USER:$USER" .emacs "$EMACS_DIR"
+          tar cvzf "$EMACS_DIR.tar.gz" "$EMACS_DIR"
+          mkdir -v -m 775 -p batch-install
+          mv .emacs batch-install/
+          # mv -v "$EMACS_DIR" batch-install/ # useless
+          mv -v "$EMACS_DIR.tar.gz" batch-install/
+      - name: Generate HTML index
+        run: |
+          : Generate HTML index
+          id
+          sudo mv batch-install _site/
+          sudo chown -R "$USER:$USER" .
+          cd _site/batch-install
+          tree -a -H . --noreport --dirsfirst -T "Last .emacs.d batch-install from tapfa-init.el ($(date -u -Im))" --charset utf-8 -o index.html
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+
+  deploy:
+    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v3
