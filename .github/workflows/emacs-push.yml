@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - emacs
-  # Rebuild the static website on-demand
+  # Rebuild the static website on-demand (disabled outside the default branch)
   workflow_dispatch:
 
 # Allow deployment to GitHub Pages using GITHUB_TOKEN
