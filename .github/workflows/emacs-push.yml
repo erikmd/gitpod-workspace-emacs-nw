@@ -64,7 +64,7 @@ jobs:
             : Get curated emacs config
             time curl -fsSL https://github.com/erikmd/tapfa-init.el/raw/master/.emacs > ~/.emacs
             : Batch-install emacs packages
-            time \emacs --batch --eval \"(progn (setq user-init-file \\\"~/.emacs\\\") (customize-save-variable 'tapfa-init-darkness $TAPFA_INIT_DARKNESS) (customize-save-variable 'tapfa-init-cua $TAPFA_INIT_CUA) (customize-save-variable 'tapfa-init-coq $TAPFA_INIT_COQ))\" --load ~/.emacs
+            time \emacs --batch --eval \"(progn (setq user-init-file \\\"~/.emacs\\\") (customize-save-variable 'tapfa-init-darkness $TAPFA_INIT_DARKNESS) (customize-save-variable 'tapfa-init-cua $TAPFA_INIT_CUA) (customize-save-variable 'tapfa-init-coq $TAPFA_INIT_COQ) (customize-save-variable 'tapfa-always-install-opam-switch-mode t))\" --load ~/.emacs
             sed -i -e 's/(hello)/(hello code-folding)/' ~/.emacs
             sudo mv ~/.emacs \"\$pwd/.emacs\"
           " bash
