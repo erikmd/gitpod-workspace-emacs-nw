@@ -1,7 +1,7 @@
 # Author: Erik Martin-Dorel, 2023-2024
 
 # Update this field!
-image: ghcr.io/erikmd/gitpod-workspace-emacs-nw:mathcomp-latest--coq-8.19
+image: ghcr.io/erikmd/gitpod-workspace-emacs-nw:coq-8.19
 
 tasks:
 
