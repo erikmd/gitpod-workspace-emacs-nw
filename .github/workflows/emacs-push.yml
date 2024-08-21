@@ -31,6 +31,7 @@ env:
   # - tapfa-init-darkness = -1 : use spacemacs-dark theme
   # - tapfa-init-cua = 1 : use windows emacs shortcuts (preferred for newcomers)
   # - tapfa-init-cua = -1 : use linux emacs shortcuts (preferred for power users)
+  # - tapfa-always-install-opam-switch-mode = t (even if opam was not detected)
   TAPFA_INIT_COQ: "1"
   TAPFA_INIT_DARKNESS: "-1"
   TAPFA_INIT_CUA: "1"
