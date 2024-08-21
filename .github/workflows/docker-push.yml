@@ -5,9 +5,9 @@ on:
       - docker
 
 env:
-  BASE_TAG: "mathcomp/mathcomp:latest-coq-8.19"
+  BASE_TAG: "coqorg/coq:8.19"
   TEMP_NAME: "image"
-  IMAGE_VERSION: "mathcomp-latest--coq-8.19"
+  IMAGE_VERSION: "coq-8.19"
 
 jobs:
   push:
