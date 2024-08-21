@@ -1,8 +1,11 @@
 name: docker-push
 on:
+  # Use a dedicated branch
   push:
     branches:
       - docker
+  # Rebuild the docker image on-demand
+  workflow_dispatch:
 
 env:
   BASE_TAG: "coqorg/coq:8.19"
