@@ -58,6 +58,7 @@ jobs:
           sudo chown -v 1000:1000 "$EMACS_DIR"
           # Note: /home/coq/.emacs.d is hard-coded
           docker run --rm -v "$PWD:$PWD" -w "$PWD" -v "$PWD/$EMACS_DIR:/home/coq/.emacs.d" --entrypoint /bin/bash "$BASE_TAG" --login -c "
+            set -e
             pwd=$PWD
             sudo apt-get update -y -q
             sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -q --no-install-recommends \
