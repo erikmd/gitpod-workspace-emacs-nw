@@ -1,7 +1,3 @@
-# Author: Erik Martin-Dorel, 2023-2024
+# Source: https://github.com/erikmd/gitpod-workspace-emacs-nw
 
 image: ghcr.io/erikmd/gitpod-workspace-emacs-nw:coq-8.19
-
-tasks:
-  - name: tmux & emacs & co
-    before: ./prepare-gitpod.sh

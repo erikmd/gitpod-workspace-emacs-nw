@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Author: Erik Martin-Dorel, 2023-2024
 
 ## Setup Git prompt

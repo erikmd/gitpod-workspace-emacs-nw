@@ -36,10 +36,10 @@ alias emacs='tapfa_init_await emacs'
 echo '~/.bash_aliases loaded'
 
 git config --global push.default upstream
-git config --global pull.rebase false  # merge by default, else "git pull -r"
-git config --global core.editor emacs  # unless you prefer vim or so
+git config --global pull.rebase false  # = merge by default, can still do "git pull -r"
 git config --global color.ui auto
 git config --global rebase.stat true
 git config --global merge.log true
 git config --global merge.conflictstyle diff3
+git config --global core.editor emacs
 export GIT_PAGER=cat
