@@ -1,4 +1,4 @@
-# -*- mode: shell-script; -*- Author: Erik Martin-Dorel, 2023
+# -*- mode: shell-script; -*- Author: Erik Martin-Dorel, 2023-2024
 
 # https://askubuntu.com/a/616066
 if [ "$TERM" = "xterm" ]; then
