@@ -26,7 +26,7 @@ sudo usermod -aG coq gitpod
 # sudo apt-get clean; sudo rm -rf /var/lib/apt/lists/*
 cat > ~/.tmux.conf <<EOF
 # set-option -g default-command bash # https://unix.stackexchange.com/a/691911/297058
-set-option -g default-command "newgrp coq"
+set-option -g default-command "newgrp coq || exec bash -i"
 EOF
 tapfa_init_done tmux
 
@@ -36,6 +36,8 @@ time curl -fsSL https://erikmd.github.io/gitpod-workspace-emacs-nw/batch-install
 time curl -fsSL https://erikmd.github.io/gitpod-workspace-emacs-nw/batch-install/.emacs.d.tar.gz > ~/.emacs.d.tar.gz
 ( cd ; tar xzf .emacs.d.tar.gz )
 tapfa_init_done emacs
+
+echo 'tmux new-session -A -s gitpod "echo \"Welcome to Gitpod Terminal! You can now run: emacs\"; newgrp coq || exec bash -i"' >> ~/.bash_profile
 
 # Documentation:
 # https://www.gitpod.io/docs/configure/workspaces/tasks#task-types-and-execution-order
