@@ -38,6 +38,7 @@ time curl -fsSL https://erikmd.github.io/gitpod-workspace-emacs-nw/batch-install
 tapfa_init_done emacs
 
 echo 'if [ -z "$TMUX" ]; then tmux new-session -A -s gitpod "echo \"Welcome to Gitpod Terminal! You can now run: emacs\"; newgrp coq || exec bash -i"; fi' >> ~/.bashrc
+echo 'if [ -n "$SSH_CONNECTION" ] && [ -z "$TMUX" ]; then tmux new-session -A -s gitpod "echo \"Welcome to Gitpod Terminal! You can now run: emacs\"; newgrp coq || exec bash -i"; fi' >> ~/.bash_profile
 
 # Documentation:
 # https://www.gitpod.io/docs/configure/workspaces/tasks#task-types-and-execution-order
