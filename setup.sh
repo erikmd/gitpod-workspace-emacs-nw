@@ -7,7 +7,7 @@ curl -fL -o ~/.git-prompt.sh https://github.com/git/git/raw/v$version/contrib/co
 chmod a-w ~/.git-prompt.sh
 
 ## DONT overwrite ~/.bashrc
-cp -fv default.bash_aliases ~/.bash_aliases
+cp -fv default.bash_aliases ~/.bash_aliases || cp -fv ~/.dotfiles/default.bash_aliases ~/.bash_aliases
 # . ~/.bash_aliases ## DONT do this here
 
 tapfa_init_done() {
