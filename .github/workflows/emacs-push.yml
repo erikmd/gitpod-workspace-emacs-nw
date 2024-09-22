@@ -64,7 +64,9 @@ jobs:
             sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -q --no-install-recommends \
               emacs-nox
             : Get curated emacs config
-            time curl -fsSL https://github.com/erikmd/tapfa-init.el/raw/master/.emacs > ~/.emacs
+            sha1=\$(curl -fsSL https://api.github.com/repos/erikmd/tapfa-init.el/commits/master -H "Accept: application/vnd.github.sha")
+            time curl -fsSL https://github.com/erikmd/tapfa-init.el/raw/\"\$sha1\"/.emacs > ~/.emacs
+            echo \"https://github.com/erikmd/tapfa-init.el/tree/\$sha1\" > \"\$pwd/source.txt\"
             : Batch-install emacs packages
             time \emacs --batch --eval \"(progn (setq user-init-file \\\"~/.emacs\\\") (customize-save-variable 'tapfa-init-darkness $TAPFA_INIT_DARKNESS) (customize-save-variable 'tapfa-init-cua $TAPFA_INIT_CUA) (customize-save-variable 'tapfa-init-coq $TAPFA_INIT_COQ) (customize-save-variable 'tapfa-init-always-install-opam-switch-mode t))\" --load ~/.emacs --eval \"(tapfa-init-reset-custom-variables-faces)\"
             sed -i -e 's/(hello)/(hello code-folding)/' ~/.emacs
@@ -76,6 +78,7 @@ jobs:
           mv .emacs batch-install/
           # mv -v "$EMACS_DIR" batch-install/ # useless
           mv -v "$EMACS_DIR.tar.gz" batch-install/
+          mv source.txt batch-install/
       - name: Generate HTML index
         run: |
           : Generate HTML index
@@ -83,7 +86,7 @@ jobs:
           sudo mv batch-install _site/
           sudo chown -R "$USER:$USER" .
           cd _site/batch-install
-          tree -a -H . --noreport --dirsfirst -T "Last .emacs.d batch-install from tapfa-init.el ($(date -u -Im))" --charset utf-8 -o index.html
+          tree -a -H . --noreport --dirsfirst -T "Last .emacs.d batch-install ($(date -u -Im)) from <a href=\"$(cat source.txt)\">tapfa-init.el</a>" --charset utf-8 -o index.html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
 
