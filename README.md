@@ -7,7 +7,7 @@
 > 
 > It also serves as a ready-to-use demo (cf. **steps 2. and 3.** below) for OCaml and Coq experiments.
 > 
-> It should be unneeded to fork this repository for *reusing its content in other projects*: it suffices to follow **step 2.** below, then add a `.gitpod.yml` file your main repository (cf. this [companion repository example](https://github.com/erikmd/gitpod-tp-env)).
+> It should be unneeded to fork this repository for *reusing its content in other projects*: it suffices to follow **step 2.** below, and add a `.gitpod.yml` file in your own repository (see this [repository template](https://github.com/erikmd/gitpod-tp-env)).
 
 1. Login in [Gitpod](https://gitpod.io/login/) using your **GitHub** account
 2. Open your [Gitpod **Preferences**](https://gitpod.io/user/preferences)
