@@ -5,9 +5,9 @@
 * Login in [Gitpod](https://gitpod.io/login/) using your **GitHub** account
 * Open your [Gitpod **Preferences**](https://gitpod.io/user/preferences)
 * Set your **Dotfiles Repository URL**: `https://github.com/erikmd/gitpod-workspace-emacs-nw`
-* Open [this Gitpod URL](https://gitpod.io/new/?autostart=true&useLatest=true&editor=xterm&workspaceClass=g1-standard#https://github.com/erikmd/gitpod-workspace-emacs-nw/) (or [manually](https://gitpod.io/new) create a workspace) with the `Terminal` browser IDE
-* If the loading takes too much time, try to reload the tab once (<kbd>Ctrl+R</kbd>)
-* Run `tmux` or `emacs` in the workspace shell!
+* Open [this **Gitpod URL**](https://gitpod.io/new/?autostart=true&useLatest=true&editor=xterm&workspaceClass=g1-standard#https://github.com/erikmd/gitpod-workspace-emacs-nw/) (or [manually](https://gitpod.io/new) create a workspace) with the `Terminal` browser IDE
+* If ever the loading takes too much time, try to reload the tab once (<kbd>Ctrl+R</kbd>)
+* Run `emacs` in the workspace shell (based on `tmux`)
 * Note the existence of the `(?)` special menu in Emacs, also:
   * type <kbd>Alt+F1</kbd> or <kbd>Ctrl+F1</kbd> to get some help on the main key bindings;
   * type <kbd>F7</kbd> to disable xterm-mouse-mode and thus allow copy-and-paste with the mouse.

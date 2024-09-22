@@ -29,11 +29,12 @@ tapfa_init_await() {
     "$@"
   else
     echo "Please wait for $1... or press C-c"; gp sync-await "$1" && "$@"
+    # Wait for 'gp sync-done "$1"', cf. tapfa_init_done in setup.sh
   fi
 }
 alias tmux='tapfa_init_await tmux'
 alias emacs='tapfa_init_await emacs'
-echo '~/.bash_aliases loaded'
+# echo '~/.bash_aliases loaded'
 
 git config --global push.default upstream
 git config --global pull.rebase false  # = merge by default, can still do "git pull -r"
