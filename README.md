@@ -8,6 +8,7 @@
 * Open [this Gitpod URL](https://gitpod.io/new/?autostart=true&useLatest=true&editor=xterm&workspaceClass=g1-standard#https://github.com/erikmd/gitpod-workspace-emacs-nw/) (or [manually](https://gitpod.io/new) create a workspace) with the `Terminal` browser IDE
 * If the loading takes too much time, try to reload the tab once (Ctrl+R)
 * Run `tmux` or `emacs` in the workspace shell!
+* You may also be interested in the [Gitpod **Browser Extension**](https://www.gitpod.io/docs/configure/user-settings/browser-extension) to create workspaces more easily.
 
 # Summary
 
