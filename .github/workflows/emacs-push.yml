@@ -66,13 +66,14 @@ jobs:
             : Get curated emacs config
             sha1=\$(curl -fsSL https://api.github.com/repos/erikmd/tapfa-init.el/commits/master -H \"Accept: application/vnd.github.sha\")
             time curl -fsSL https://github.com/erikmd/tapfa-init.el/raw/\"\$sha1\"/.emacs > ~/.emacs
-            echo \"https://github.com/erikmd/tapfa-init.el/tree/\$sha1\" > \"\$pwd/source.txt\"
+            echo \"https://github.com/erikmd/tapfa-init.el/tree/\$sha1\" > ~/source.txt
             : Batch-install emacs packages
             time \emacs --batch --eval \"(progn (setq user-init-file \\\"~/.emacs\\\") (customize-save-variable 'tapfa-init-darkness $TAPFA_INIT_DARKNESS) (customize-save-variable 'tapfa-init-cua $TAPFA_INIT_CUA) (customize-save-variable 'tapfa-init-coq $TAPFA_INIT_COQ) (customize-save-variable 'tapfa-init-always-install-opam-switch-mode t))\" --load ~/.emacs --eval \"(tapfa-init-reset-custom-variables-faces)\"
             sed -i -e 's/(hello)/(hello code-folding)/' ~/.emacs
             sudo mv ~/.emacs \"\$pwd/.emacs\"
+            sudo mv ~/source.txt \"\$pwd/source.txt\"
           " bash
-          sudo chown -v "$USER:$USER" .emacs "$EMACS_DIR"
+          sudo chown -v "$USER:$USER" .emacs "$EMACS_DIR" source.txt
           tar cvzf "$EMACS_DIR.tar.gz" "$EMACS_DIR"
           mkdir -v -m 775 -p batch-install
           mv .emacs batch-install/
