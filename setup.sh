@@ -38,7 +38,12 @@ time curl -fsSL https://erikmd.github.io/gitpod-workspace-emacs-nw/batch-install
 tapfa_init_done emacs
 
 echo 'if [ -z "$TMUX" ]; then tmux new-session -A -s gitpod "echo \"Welcome to Gitpod Terminal! You can now run: emacs\"; newgrp coq || exec bash -i"; fi' >> ~/.bashrc
-echo 'if [ -n "$SSH_CONNECTION" ] && [ -z "$TMUX" ]; then tmux new-session -A -s gitpod "echo \"Welcome to Gitpod Terminal! You can now run: emacs\"; newgrp coq || exec bash -i"; fi' >> ~/.bash_profile
+
+# A proper hack to run the same tmux command from a SSH_CONNECTION,
+# taking into account that ~/.bashrc is not sourced AND Gitpod appends
+# 'if [[ -n $SSH_CONNECTION ]]; then cd "/workspace/GITHUB-REPO-NAME"; fi'
+# at the end of ~/.bash_profile while it should be run beforehand.
+echo '_c_d() { \cd "$1"; unalias cd; if [ -n "$SSH_CONNECTION" ] && [ -z "$TMUX" ]; then tmux new-session -A -s gitpod "echo \"Welcome to Gitpod Terminal! You can now run: emacs\"; newgrp coq || exec bash -i"; fi; }; alias "cd=_c_d"' >> ~/.bash_profile
 
 # Documentation:
 # https://www.gitpod.io/docs/configure/workspaces/tasks#task-types-and-execution-order
