@@ -64,7 +64,7 @@ jobs:
             sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -q --no-install-recommends \
               emacs-nox
             : Get curated emacs config
-            sha1=\$(curl -fsSL https://api.github.com/repos/erikmd/tapfa-init.el/commits/master -H "Accept: application/vnd.github.sha")
+            sha1=\$(curl -fsSL https://api.github.com/repos/erikmd/tapfa-init.el/commits/master -H \"Accept: application/vnd.github.sha\")
             time curl -fsSL https://github.com/erikmd/tapfa-init.el/raw/\"\$sha1\"/.emacs > ~/.emacs
             echo \"https://github.com/erikmd/tapfa-init.el/tree/\$sha1\" > \"\$pwd/source.txt\"
             : Batch-install emacs packages
