@@ -12,13 +12,16 @@
 1. Log in [Gitpod Classic](https://gitpod.io/login/) using your **GitHub** account
 2. Open your [Gitpod **Preferences**](https://gitpod.io/user/preferences)
    * Set your **Dotfiles Repository URL**: `https://github.com/erikmd/gitpod-workspace-emacs-nw`
-3. Open [this **Gitpod URL**](https://gitpod.io/new/?autostart=true&useLatest=true&editor=xterm&workspaceClass=g1-standard#https://github.com/erikmd/gitpod-workspace-emacs-nw/) (or [manually](https://gitpod.io/new) create a workspace) with the `Terminal` browser IDE
+3. Open your [Gitpod **Environment Variables**](https://gitpod.io/user/variables)
+   * Add a **new variable** named `XTERM_CONFIRM_BROWSER_EXIT` with value `true` and scope `*/*`  
+     ([this setting](https://github.com/gitpod-io/xterm-web-ide/pull/23#issuecomment-2444018879) ensures the usual Emacs keystroke <kbd>Ctrl+W</kbd> won't unexpectedly close the workspace in the browser)
+4. Open [this **Gitpod URL**](https://gitpod.io/new/?autostart=true&useLatest=true&editor=xterm&workspaceClass=g1-standard#https://github.com/erikmd/gitpod-workspace-emacs-nw/) (or [manually](https://gitpod.io/new) create a workspace) with the `Terminal` browser IDE
    * If ever the loading takes too much time, try to reload the tab once (<kbd>Ctrl+R</kbd>)
-4. Run `emacs` in the workspace shell (based on [`tmux`](https://github.com/tmux/tmux/wiki))
-5. Note the existence of the `(?)` special menu in Emacs, also:
+5. Run `emacs` in the workspace shell (based on [`tmux`](https://github.com/tmux/tmux/wiki))
+6. Note the existence of the `(?)` special menu in Emacs, also:
    * type <kbd>Alt+F1</kbd> or <kbd>Ctrl+F1</kbd> to get some help on the main key bindings;
    * type <kbd>F7</kbd> to disable xterm-mouse-mode and thus allow copy-and-paste with the mouse.
-6. You may also be interested in the [Gitpod **Browser Extension**](https://www.gitpod.io/docs/configure/user-settings/browser-extension) to create workspaces more easily from other repositories.
+7. You may also be interested in the [Gitpod **Browser Extension**](https://www.gitpod.io/docs/configure/user-settings/browser-extension) to create workspaces more easily from other repositories.
 
 # Summary
 
@@ -32,4 +35,4 @@ This self-contained GitHub repository contains three branches:
 
 This approach relies on the Gitpod Classic plans which are intended to
 be replaced with [Gitpod Flex](https://www.gitpod.io/pricing) after
-April 2025.
+September 2025.
