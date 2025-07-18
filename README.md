@@ -14,7 +14,7 @@
    * Set your **Dotfiles Repository URL**: `https://github.com/erikmd/gitpod-workspace-emacs-nw`
 3. Open your [Gitpod **Environment Variables**](https://gitpod.io/user/variables)
    * Add a **new variable** named `XTERM_CONFIRM_BROWSER_EXIT` with value `true` and scope `*/*`  
-     ([this setting](https://github.com/gitpod-io/xterm-web-ide/pull/23#issuecomment-2444018879) ensures the usual Emacs keystroke <kbd>Ctrl+W</kbd> won't unexpectedly close the workspace in the browser)
+     ([this setting](https://github.com/gitpod-io/xterm-web-ide/pull/23#issuecomment-2444018879) ensures the usual Emacs keystroke <kbd>Ctrl+W</kbd> won't unexpectedly close your browser tab)
 4. Open [this **Gitpod URL**](https://gitpod.io/new/?autostart=true&useLatest=true&editor=xterm&workspaceClass=g1-standard#https://github.com/erikmd/gitpod-workspace-emacs-nw/) (or [manually](https://gitpod.io/new) create a workspace) with the `Terminal` browser IDE
    * If ever the loading takes too much time, try to reload the tab once (<kbd>Ctrl+R</kbd>)
 5. Run `emacs` in the workspace shell (based on [`tmux`](https://github.com/tmux/tmux/wiki))
