@@ -5,7 +5,7 @@
 > [!IMPORTANT]
 > This repository essentially serves as a Gitpod [Dotfiles](https://www.gitpod.io/docs/configure/user-settings/dotfiles) repository for Emacs-in-[Browser-Terminal](https://www.gitpod.io/docs/references/ides-and-editors/browser-terminal).
 > 
-> It also serves as a ready-to-use demo (cf. **steps 2. and 3.** below) for OCaml and Coq experiments.
+> It also serves as a ready-to-use demo (cf. **steps 2., 3. and 4.** below) for OCaml and Coq experiments.
 > 
 > It should be unneeded to fork this repository for *reusing its content in other projects*: it suffices to follow **step 2.** below, and add a `.gitpod.yml` file in your own repository (see this [repository template](https://github.com/erikmd/gitpod-tp-env)).
 
